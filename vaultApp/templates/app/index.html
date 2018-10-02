@@ -1,4 +1,4 @@
-{% extends 'passwordentry/base.html' %}
+{% extends 'app/base.html' %}
 {% block title %}The Vault{% endblock %}
 {% block content %}
     {% for entry in entryList %}
@@ -6,11 +6,11 @@
         <div class="card-body">
             <h5 class="card-title">{{ entry.id }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">
-                <time datetime="{{ article.dateOfCreation|date:'c' }}">{{ article.dateOfCreation|date:'F d, Y h:i A' }}</time>
+                <time datetime="{{ article.date_of_creation|date:'c' }}">{{ article.dateOfCreation|date:'F d, Y h:i A' }}</time>
             </h6>
             <p class="card-text card-text-ellipsis">
-                {{ entry.userName }}<br>
-                {{ entry.plainTextPassword }}
+                {{ entry.user_name }}<br>
+                {{ entry.plaintext_password }}
             </p>
         </div>
     </div>

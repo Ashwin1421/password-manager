@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="{% static 'resources/css/all.css' %}" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
         <script src="{% static 'resources/js/toggle.js'%}"></script>
         <link href="https://fonts.googleapis.com/css?family=Poppins:500" rel="stylesheet">
+        <link href="{% static 'resources/css/login.css'%}" rel="stylesheet">
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
@@ -56,11 +57,11 @@
                                     <span class="navbar-text">Welcome, {{ user.first_name }}</span>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" style="color: red;" href="/logoutView/">Sign-Out</a>
+                                    <a class="nav-link" style="color: red;" href="/sign-out/">Sign-Out</a>
                                 </li>
                                 {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/loginView/" >Sign-in</a>
+                                    <a class="nav-link" href="/sign-in/" >Sign-in</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/signup/">Sign-Up</a>

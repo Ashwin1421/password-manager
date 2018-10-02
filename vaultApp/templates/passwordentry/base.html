@@ -26,51 +26,11 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static 'resources/css/all.css' %}" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
         <script src="{% static 'resources/js/toggle.js'%}"></script>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:500" rel="stylesheet">
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
         <div class="wrapper">
-            <!-- Sidebar  -->
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <a id="sidebarCollapse" class="btn btn-default">
-                        <i class="fas fa-bars"></i>
-                        <div class="sidebar-header-text">The Vault</div>
-                    </a>
-                </div>
-
-                <ul class="list-unstyled components">
-                    <li class="active">
-                        <a href="/">
-                            <i class="fas fa-home"></i>
-                            <div class="link-text">Home</div>
-                        </a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li>
-                        <a href="/profile/">
-                            <i class="fas fa-user"></i>
-                            <div class="link-text">Welcome, {{ user.first_name }}</div>
-                        </a>
-                        <a href="/logoutView/">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <div class="link-text">Sign-Out</div>
-                        </a>
-                    </li>
-                    {% else %}
-                    <li>
-                        <a href="/loginView/">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <div class="link-text">Sign-in</div>
-                        </a>
-                        <a href="/signup/">
-                            <i class="fas fa-user-plus"></i>
-                            <div class="link-text">Sign-Up</div>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
 
             <!-- Page Content  -->
             <div id="content">
@@ -85,6 +45,9 @@
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="nav navbar-nav ml-auto">
+                                <li class="nav-item left">
+                                    <a class="nav-link" href="/">Vault</a>
+                                </li>
                                 <li class="nav-item active">
                                     <a class="nav-link" href="/">Home</a>
                                 </li>

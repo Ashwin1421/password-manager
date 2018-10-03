@@ -1,6 +1,4 @@
 from hashlib import sha1, sha256, sha384, sha512
-from vaultApp.policy.policyDefinition import PolicyDefinition
-from vaultApp.manager.manager import PasswordGenerator
 class PasswordHashing():
 
     def __init__(self, algorithm="sha256"):
@@ -14,17 +12,6 @@ class PasswordHashing():
         else:
             self.__sha = sha256()
 
-    def getHashValue(self, input):
+    def get_hash_value(self, input):
         self.__sha.update(input.encode())
         return self.__sha.hexdigest()
-
-
-if __name__ == "__main__":
-    rule = PolicyDefinition()
-    rule.setLength(16)
-    rule.setHasLowerCase(True)
-    rule.setHasUpperCase(True)
-    rule.setHasNumbers(True)
-    rule.setHasSpecialChars(True)
-    pg = PasswordGenerator(rule)
-    pg.generateRandomPassword()

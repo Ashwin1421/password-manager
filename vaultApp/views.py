@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from vaultApp.models import PasswordEntry
 from forms import LoginForm
 
@@ -10,6 +11,8 @@ def index(request):
 
     return render(request, template_name, {"entryList" : entryList})
 
+def register(request):
+    return
 
 def user_login(request):
     template_name = "registration/login.html"
@@ -32,6 +35,7 @@ def user_login(request):
 
     return render(request, template_name, {'form': form})
 
+@login_required
 def user_logout(request):
     template_name = "app/index.html"
     logout(request)

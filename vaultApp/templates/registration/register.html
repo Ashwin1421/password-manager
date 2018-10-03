@@ -1,0 +1,101 @@
+{% extends 'app/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Vault Register{% endblock %}
+{% block content %}
+<div id="register-form" class="card text-center container-fluid">
+    <div class="card-header"><h3>Registration</h3></div>
+    <div class="card-body">
+        <form class="form-horizontal" action="" method="POST">
+            {% csrf_token %}
+
+            {# render hidden fields here #}
+            {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+            {% endfor %}
+
+            {# render errors here #}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <!--Name-->
+            <div id="name-div" class="form-group has-feedback">
+                <div class="col-sm-12">
+                    {% render_field form.first_name class="form-control" placeholder="First Name" %}
+                    {% if form.first_name.help_text %}
+                        <small class="text-muted">{{ form.first_name.help_text }}</small>
+                    {% endif %}
+                    {% for error in form.first_name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="col-sm-12">
+                    {% render_field form.last_name class="form-control" placeholder="Last Name" %}
+                    {% if form.last_name.help_text %}
+                        <small class="text-muted">{{ form.last_name.help_text }}</small>
+                    {% endif %}
+                    {% for error in form.last_name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <!--Name-->
+            <div class="form-group has-feedback">
+                <div class="col-sm-12">
+                    {% render_field form.email class="form-control" placeholder="Email" %}
+                    {% if form.email.help_text %}
+                    <small class="text-muted">{{ form.email.help_text }}</small>
+                    {% endif %}
+                    {% for error in form.email.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <!--UserName-->
+            <div id="username-div" class="form-group has-feedback">
+                <div class="col-sm-12">
+                    {% render_field form.username class="form-control" placeholder="Username" %}
+                    {% if form.username.help_text %}
+                    <small class="text-muted">{{ form.username.help_text }}</small>
+                    {% endif %}
+                    {% for error in form.username.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <!--UserName-->
+            <div id="password-div" class="form-group has-feedback">
+                <div class="col-sm-12">
+                    {% render_field form.password1 class="form-control" placeholder="Password" %}
+                    {% if form.password1.help_text %}
+                    <small class="text-muted">{{ form.password1.help_text|safe }}</small>
+                    {% endif %}
+                    {% for error in form.password1.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div id="confirm-password-div" class="form-group has-feedback">
+                <div class="col-sm-12">
+                    {% render_field form.password2 class="form-control" placeholder="Confirm Password" %}
+                    <span id="confirm-password-span" class="glyphicon form-control-feedback"></span>
+                    {% if form.password2.help_text %}
+                    <small class="text-muted">{{ form.password2.help_text }}</small>
+                    {% endif %}
+                    {% for error in form.password2.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" name="login" id="login-btn" value="Sign-Up" class="btn btn-success">
+                <input type="button" name="cancel" value="Cancel" class="btn btn-primary" onclick="location.href='/'">
+            </div>
+        </form><!-- /form -->
+    </div>
+</div><!-- /card-container -->
+{% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from vaultApp.models import PasswordEntry
 from .forms import LoginForm, SignupForm
+from email_validator import validate_email, EmailNotValidError, EmailUndeliverableError, EmailSyntaxError
 
 # Create your views here.
 def index(request):
@@ -19,6 +20,15 @@ def register(request):
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get("email")
+            try:
+                v = validate_email(email, check_deliverability=True)
+                email = v["email"]
+            except EmailUndeliverableError as e:
+                print(str(e))
+            except EmailNotValidError as e:
+                print(str(e))
+            except EmailSyntaxError as e:
+                print(str(e))
             raw_password = form.cleaned_data.get("password")
             user = form.save()
             login(request, user)

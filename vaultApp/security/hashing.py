@@ -3,7 +3,8 @@ from bcrypt import hashpw, gensalt
 from base64 import b64encode
 from os import urandom
 
-class PasswordHashing():
+
+class PasswordHashing:
 
     def __init__(self, algorithm="sha256"):
         self.__algorithm = algorithm
@@ -16,9 +17,9 @@ class PasswordHashing():
         else:
             self.__sha = sha256
 
-    def get_hash_value(self, input):
+    def get_hash_value(self, password):
         hashed = hashpw(
-            b64encode(self.__sha(input.encode()+urandom(len(input))).digest()),
+            b64encode(self.__sha(password.encode() + urandom(len(password))).digest()),
             gensalt(16)
-               )
+        )
         return hashed.decode()

@@ -29,7 +29,7 @@ class UserAdmin(DjangoUserAdmin):
 
 
 class PasswordEntryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'plaintext_password']
+    list_display = ['id', 'username', 'plaintext_password', 'date_of_creation', 'account']
     search_fields = ['username']
     save_on_top = True
 

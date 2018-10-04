@@ -55,6 +55,7 @@ class PasswordEntry(models.Model):
     password_hash = models.CharField(max_length=512)
     created = models.BooleanField(default=True)
     date_of_creation = models.DateTimeField(auto_now_add=True)
+    account = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         result = "Entry{"

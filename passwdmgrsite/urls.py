@@ -21,4 +21,5 @@ urlpatterns = [
     path("", include("vaultApp.urls")),
     path("entry/", include("vaultApp.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/profile/", include("vaultApp.urls")),
 ]

@@ -1,17 +1,38 @@
 {% extends 'app/base.html' %}
 {% block title %}The Vault{% endblock %}
+
 {% block content %}
-    {% for entry in entryList %}
+    {% if not entry_list %}
+        <h3>Welcome to the Vault!</h3>
+    {% endif %}
+    {% for entry in entry_list %}
     <div class="card article-card">
         <div class="card-body">
-            <h5 class="card-title">{{ entry.id }}</h5>
+            <h5 class="card-title">{{ entry.username }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">
-                <time datetime="{{ article.date_of_creation|date:'c' }}">{{ article.dateOfCreation|date:'F d, Y h:i A' }}</time>
+                <time datetime="{{ entry.date_of_creation|date:'c' }}">{{ entry.date_of_creation|date:'F d, Y h:i A' }}</time>
             </h6>
-            <p class="card-text card-text-ellipsis">
-                {{ entry.user_name }}<br>
-                {{ entry.plaintext_password }}
-            </p>
+            <div class="form-group">
+                <input id="{{ entry.id }}" type="password" class="form-control" value="{{ entry.plaintext_password }}" readonly>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="{{ entry.id }}" onclick="reveal({{ entry.id }})">
+                <label class="form-check-label" for="{{ entry.id }}">Show</label>
+            </div>
+            <form action="/delete/{{ entry.id }}/" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
+            <script>
+                function reveal(id) {
+                    var id_password = document.getElementById(id);
+                    if(id_password.type === "password"){
+                        id_password.type = "text";
+                    }else{
+                        id_password.type = "password";
+                    }
+                }
+            </script>
         </div>
     </div>
     {% endfor %}

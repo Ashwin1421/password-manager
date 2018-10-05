@@ -29,8 +29,9 @@ class UserAdmin(DjangoUserAdmin):
 
 
 class PasswordEntryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'plaintext_password', 'date_of_creation', 'account']
+    list_display = ['id', 'username', 'password_hash', 'date_of_creation', 'website', 'account']
     search_fields = ['username']
+    exclude = ['plaintext_password']
     save_on_top = True
 
 

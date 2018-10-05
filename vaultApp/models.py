@@ -53,16 +53,12 @@ class PasswordEntry(models.Model):
     username = models.CharField(max_length=150)
     plaintext_password = models.CharField(max_length=150)
     password_hash = models.CharField(max_length=512)
+    website = models.CharField(max_length=150)
     created = models.BooleanField(default=True)
     date_of_creation = models.DateTimeField(auto_now_add=True)
     account = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        result = "Entry{"
-        result += "Id="+str(self.id)+", "
-        result += "userName=" + str(self.username) + ", "
-        result += "password="+str(self.plaintext_password)
-        result += " }"
-        return result
+        return self.password_hash
 
 

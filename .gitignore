@@ -1,3 +1,3 @@
 db.sqlite3
 vaultApp/migrations/
-*/__pycache__
+vaultApp/__pycache__/

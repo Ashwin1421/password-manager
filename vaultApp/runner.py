@@ -13,6 +13,3 @@ if __name__ == '__main__':
     manager = PasswordGenerator(policy)
     password = manager.get_random_password()
     print(password)
-    password_hashing = PasswordHashing(algorithm="sha512")
-    hash = password_hashing.get_hash_value(password)
-    print(hash)

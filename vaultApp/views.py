@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from vaultApp.models import PasswordEntry
-from .forms import LoginForm, SignupForm, PasswordEntryCreationForm
+from .forms import LoginForm, SignupForm, PasswordEntryForm, RandomPasswordGenerationForm
 from email_validator import validate_email, EmailNotValidError, EmailUndeliverableError, EmailSyntaxError
 from .security.policy import Policy
 from .security.hashing import PasswordHashing
@@ -13,7 +13,7 @@ from .security.manager import PasswordGenerator
 def index(request):
     template_name = "app/index.html"
     if request.user.is_authenticated:
-        entry_list = PasswordEntry.objects.filter(created=True)
+        entry_list = PasswordEntry.objects.filter(created=True, account=request.user)
     else:
         entry_list = []
 
@@ -78,26 +78,17 @@ def user_logout(request):
 
 @login_required
 def create_password_entry(request):
-    template_name = "app/create_entry.html"
-    policy = Policy(
-        length=16,
-        has_lowercase=True,
-        has_uppercase=True,
-        has_numbers=True,
-        has_special_chars=True
-    )
-    manager = PasswordGenerator(policy)
-    password = manager.get_random_password()
+    template_name = "app/password_entry_form.html"
     password_hashing = PasswordHashing(algorithm="sha512")
 
     if request.method == "POST":
-        form = PasswordEntryCreationForm(request.POST)
+        form = PasswordEntryForm(request.POST)
         if form.is_valid():
             new_password_entry = PasswordEntry()
             new_password_entry.username = form.cleaned_data.get("username")
             new_password_entry.plaintext_password = form.cleaned_data.get("plaintext_password")
             new_password_entry.created = True
-            password_hash = password_hashing.get_hash_value(password)
+            password_hash = password_hashing.get_hash_value(new_password_entry.plaintext_password)
             new_password_entry.password_hash = password_hash
             if request.user.is_authenticated:
                 new_password_entry.account = request.user
@@ -106,7 +97,24 @@ def create_password_entry(request):
 
             return redirect("/")
     else:
-        form = PasswordEntryCreationForm()
+        form = PasswordEntryForm()
+
+    return render(request, template_name, {"form": form})
+
+
+@login_required
+def update_password_entry(request, pk):
+    template_name = "app/password_entry_form.html"
+    entry = get_object_or_404(PasswordEntry, pk=pk)
+
+    if request.method == "POST":
+        form = PasswordEntryForm(request.POST, instance=entry)
+        if form.is_valid():
+            form.save()
+
+            return redirect("/")
+    else:
+        form = PasswordEntryForm(None, instance=entry)
 
     return render(request, template_name, {"form": form})
 
@@ -122,3 +130,44 @@ def delete_password_entry(request, pk):
         return redirect("/")
 
     return render(request, template_name, {"password_entry": password_entry})
+
+
+@login_required
+def detail_password_entry(request, pk):
+    template_name = "app/password_entry_detail.html"
+    password_entry = get_object_or_404(PasswordEntry, pk=pk)
+
+    if request.user.is_authenticated:
+        entry_list = PasswordEntry.objects.filter(created=True)
+    else:
+        entry_list = []
+
+    return render(request, template_name, { "entry_list": entry_list, "entry": password_entry})
+
+
+@login_required
+def gen_rnd_password(request, pk):
+    template_name = "app/password_entry_detail.html"
+    password_entry = get_object_or_404(PasswordEntry, pk=pk)
+    policy = Policy(
+        length=16,
+        has_lowercase=True,
+        has_uppercase=True,
+        has_numbers=True,
+        has_special_chars=True
+    )
+    manager = PasswordGenerator(policy)
+    context = dict()
+    if request.method == "POST":
+        random_password = manager.get_random_password()
+
+        if request.user.is_authenticated:
+            entry_list = PasswordEntry.objects.filter(created=True, account=request.user)
+        else:
+            entry_list = []
+        context["entry_list"] = entry_list
+        context["entry"] = password_entry
+        context["random_password"] = random_password
+        print(random_password)
+
+        return render(request, template_name, context)
